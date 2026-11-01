@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | PrepAI{% endblock %}
+
+{% block content %}
+
+<section class="dashboard">
+
+    <!-- Welcome Header -->
+    <div class="dashboard-header">
+        <div>
+            <p class="tagline">YOUR PREPARATION SPACE</p>
+            <h1>Welcome, {{ session.get('student_name') }}!</h1>
+            <p>
+                Prepare for placements with AI-powered resume analysis
+                and mock interviews.
+            </p>
+        </div>
+    </div>
+
+    <!-- Dashboard Statistics -->
+    <div class="dashboard-stats">
+
+        <div class="stat-card">
+            <h3>{{ tests_completed }}</h3>
+            <p>Interviews Completed</p>
+        </div>
+
+        <div class="stat-card">
+            <h3>{{ average_score }}%</h3>
+            <p>Average Interview Score</p>
+        </div>
+
+        <div class="stat-card">
+            <h3>{{ practice_sessions }}</h3>
+            <p>Total Interview Sessions</p>
+        </div>
+
+        <div class="stat-card">
+            <h3>{{ skills_improved }}</h3>
+            <p>Skills Improved</p>
+        </div>
+
+    </div>
+
+    <!-- Main Features -->
+    <div class="dashboard-section">
+
+        <h2>Explore PrepAI</h2>
+
+        <p class="section-description">
+            Choose a feature to begin your placement preparation.
+        </p>
+
+        <div class="dashboard-cards">
+
+            <!-- Resume Analysis -->
+            <div class="dashboard-card">
+
+                <div class="card-icon">📄</div>
+
+                <h3>Resume Analysis</h3>
+
+                <p>
+                    Upload your resume, extract your skills, identify
+                    skill gaps and discover areas for improvement.
+                </p>
+
+                <a href="{{ url_for('resume') }}" class="card-button">
+                    Analyze Resume →
+                </a>
+
+            </div>
+
+            <!-- AI Mock Interview -->
+            <div class="dashboard-card">
+
+                <div class="card-icon">🎤</div>
+
+                <h3>AI Mock Interview</h3>
+
+                <p>
+                    Practice technical and HR interviews using
+                    AI-generated questions and personalized feedback.
+                </p>
+
+                <a href="{{ url_for('interview_setup') }}" class="card-button">
+                    Start Interview →
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Progress Section -->
+    <div class="dashboard-section">
+
+        <h2>Your Progress</h2>
+
+        <p class="section-description">
+            Track your previous interviews and review your performance.
+        </p>
+
+        <div class="progress-card">
+
+            {% if latest_report_id %}
+
+                <p>Your latest interview report is ready.</p>
+
+                <a href="{{ url_for('report', interview_id=latest_report_id) }}"
+                   class="card-button">
+                    View Latest Report →
+                </a>
+
+            {% else %}
+
+                <p>You haven't completed any interviews yet.</p>
+
+            {% endif %}
+
+            <br>
+
+            <a href="{{ url_for('interview_history') }}"
+               class="card-button">
+                View Interview History →
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

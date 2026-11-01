@@ -1,0 +1,62 @@
+
+{% extends "base.html" %}
+
+{% block title %}Home | PrepAI{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <p class="tagline">YOUR AI INTERVIEW COMPANION</p>
+
+        <h1>
+            Prepare Smarter.<br>
+            Interview Better.
+        </h1>
+
+        <p class="hero-description">
+            Practice interviews with AI, analyze your answers,
+            identify skill gaps and improve your placement readiness.
+        </p>
+
+        <a href="{{ url_for('dashboard') }}" class="hero-button">
+            Start Preparing →
+        </a>
+
+    </div>
+
+</section>
+
+<section class="features">
+
+    <h2>Everything You Need to Prepare</h2>
+
+    <div class="feature-container">
+
+        <div class="feature-card">
+            <h3>Resume Analysis</h3>
+            <p>Analyze your resume and identify missing skills.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>AI Mock Interviews</h3>
+            <p>Practice technical and HR interview questions.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Smart Feedback</h3>
+            <p>Get personalized feedback on your answers.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Performance Tracking</h3>
+            <p>Track your progress and interview performance.</p>
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

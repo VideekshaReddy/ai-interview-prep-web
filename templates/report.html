@@ -1,0 +1,165 @@
+
+{% extends "base.html" %}
+
+{% block title %}Performance Report | PrepAI{% endblock %}
+
+{% block content %}
+
+<section class="report-page">
+
+    <!-- REPORT HEADER -->
+
+    <div class="report-header">
+        <p class="tagline">YOUR PERFORMANCE</p>
+        <h1>Interview Report</h1>
+        <p>Review your performance and identify areas for improvement.</p>
+    </div>
+
+
+    <!-- OVERALL SCORE -->
+
+    <div class="report-score-card">
+
+        <p>OVERALL SCORE</p>
+
+        {% if result %}
+
+            <h2>{{ result.score }}<span>/100</span></h2>
+
+            <p>{{ result.feedback }}</p>
+
+        {% else %}
+
+            <h2>--<span>/100</span></h2>
+
+            <p>Complete an interview to view your score.</p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- INTERVIEW DETAILS -->
+
+    <div class="report-stats">
+
+        <div class="report-stat">
+            <h3>{{ answered_count }}/{{ total_questions }}</h3>
+            <p>Questions Answered</p>
+        </div>
+
+        <div class="report-stat">
+            <h3>{{ interview.job_role }}</h3>
+            <p>Job Role</p>
+        </div>
+
+        <div class="report-stat">
+            <h3>{{ interview.difficulty }}</h3>
+            <p>Difficulty</p>
+        </div>
+
+    </div>
+
+
+    <!-- INDIVIDUAL QUESTION EVALUATIONS -->
+
+    <div class="report-section">
+
+        <h2>Individual Question Evaluations</h2>
+
+        {% for item in evaluated_answers %}
+
+            <div class="feedback-card">
+
+                <p class="tagline">
+                    QUESTION {{ loop.index }}
+                </p>
+
+                <h3>{{ item.question }}</h3>
+
+                <h4>Your Answer</h4>
+
+                <p>{{ item.answer }}</p>
+
+                {% if item.evaluation %}
+
+                    <div class="evaluation-score">
+                        <span>AI Score</span>
+                        <h2>
+                            {{ item.evaluation.score }}/10
+                        </h2>
+                    </div>
+
+                    <h4>Correctness</h4>
+                    <p>{{ item.evaluation.correctness }}</p>
+
+                    <h4>Relevance</h4>
+                    <p>{{ item.evaluation.relevance }}</p>
+
+                    <h4>Completeness</h4>
+                    <p>{{ item.evaluation.completeness }}</p>
+
+                    <h4>Clarity</h4>
+                    <p>{{ item.evaluation.clarity }}</p>
+
+                    <h4>Missing Concepts</h4>
+
+                    {% if item.evaluation.missing_concepts %}
+
+                        <ul>
+                            {% for concept in item.evaluation.missing_concepts %}
+                                <li>{{ concept }}</li>
+                            {% endfor %}
+                        </ul>
+
+                    {% else %}
+
+                        <p>No missing concepts reported.</p>
+
+                    {% endif %}
+
+                    <h4>Suggestions for Improvement</h4>
+                    <p>{{ item.evaluation.feedback }}</p>
+
+                    <h4>Improved Answer</h4>
+
+                    <div class="recommendation-card">
+                        {{ item.evaluation.improved_answer }}
+                    </div>
+
+                {% else %}
+
+                    <p>Evaluation is not available for this answer.</p>
+
+                {% endif %}
+
+            </div>
+
+        {% else %}
+
+            <p>No answers were submitted for evaluation.</p>
+
+        {% endfor %}
+
+    </div>
+
+
+    <!-- REPORT ACTIONS -->
+
+    <div class="report-actions">
+
+        <a href="{{ url_for('interview_setup') }}"
+           class="primary-button">
+            Try Another Interview →
+        </a>
+
+        <a href="{{ url_for('dashboard') }}"
+           class="secondary-button">
+            Back to Dashboard
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}

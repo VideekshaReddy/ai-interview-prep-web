@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Interview History | PrepAI{% endblock %}
+
+{% block content %}
+
+<section class="history-page">
+
+    <div class="history-header">
+        <h1>Interview History</h1>
+        <p>View your previous mock interviews and performance.</p>
+    </div>
+
+    {% if history %}
+
+        <div class="history-grid">
+
+            {% for item in history %}
+
+                <div class="history-card">
+
+                    <h2>{{ item.job_role }}</h2>
+
+                    <div class="history-details">
+                        <p>
+                            <strong>Interview Type:</strong>
+                            {{ item.interview_type }}
+                        </p>
+
+                        <p>
+                            <strong>Difficulty:</strong>
+                            {{ item.difficulty }}
+                        </p>
+                    </div>
+
+                    {% if item.completed %}
+
+                        <div class="history-score">
+                            <span>Score</span>
+                            <strong>{{ item.score }}/100</strong>
+                        </div>
+
+                        <a href="{{ url_for('report', interview_id=item.id) }}"
+                           class="history-button">
+                            View Report →
+                        </a>
+
+                    {% else %}
+
+                        <span class="history-status">
+                            Not completed
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="history-empty">
+            <h2>No interviews yet</h2>
+            <p>You haven't attempted any interviews yet.</p>
+        </div>
+
+    {% endif %}
+
+    <div class="history-action">
+        <a href="{{ url_for('interview_setup') }}" class="history-button">
+            + Start New Interview
+        </a>
+    </div>
+
+</section>
+
+{% endblock %}

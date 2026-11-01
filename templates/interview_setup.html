@@ -1,0 +1,109 @@
+
+{% extends "base.html" %}
+
+{% block title %}Interview Setup | PrepAI{% endblock %}
+
+{% block content %}
+
+<section class="setup-page">
+
+    <div class="setup-header">
+        <p class="tagline">AI MOCK INTERVIEW</p>
+        <h1>Set Up Your Interview</h1>
+        <p>
+            Customize your interview according to your career goals
+            and practice at your own pace.
+        </p>
+    </div>
+
+    <div class="setup-container">
+
+        <form action="{{ url_for('interview') }}" method="POST">
+
+            <!-- Job Role -->
+            <div class="form-group">
+                <label for="role">Select Job Role</label>
+
+                <select id="role" name="role" required>
+                    <option value="">Choose a role</option>
+                    <option value="Software Developer">Software Developer</option>
+                    <option value="Frontend Developer">Frontend Developer</option>
+                    <option value="Backend Developer">Backend Developer</option>
+                    <option value="Data Analyst">Data Analyst</option>
+                    <option value="Data Scientist">Data Scientist</option>
+                    <option value="Java Developer">Java Developer</option>
+                    <option value="Python Developer">Python Developer</option>
+                </select>
+            </div>
+
+            <!-- Interview Type -->
+            <div class="form-group">
+                <label>Interview Type</label>
+
+                <div class="option-group">
+
+                    <label class="option-card">
+                        <input type="radio" name="interview_type"
+                               value="Technical" required>
+                        <span>
+                            <strong>Technical Interview</strong>
+                            <small>Programming, DSA and core CS concepts</small>
+                        </span>
+                    </label>
+
+                    <label class="option-card">
+                        <input type="radio" name="interview_type"
+                               value="HR">
+                        <span>
+                            <strong>HR Interview</strong>
+                            <small>Behavioral and situational questions</small>
+                        </span>
+                    </label>
+
+                    <label class="option-card">
+                        <input type="radio" name="interview_type"
+                               value="Mixed">
+                        <span>
+                            <strong>Mixed Interview</strong>
+                            <small>A combination of technical and HR questions</small>
+                        </span>
+                    </label>
+
+                </div>
+            </div>
+
+            <!-- Difficulty -->
+            <div class="form-group">
+                <label for="difficulty">Difficulty Level</label>
+
+                <select id="difficulty" name="difficulty" required>
+                    <option value="">Choose difficulty</option>
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                </select>
+            </div>
+
+            <!-- Number of Questions -->
+            <div class="form-group">
+                <label for="questions">Number of Questions</label>
+
+                <select id="questions" name="questions" required>
+                    <option value="5">5 Questions</option>
+                    <option value="10" selected>10 Questions</option>
+                    <option value="15">15 Questions</option>
+                    <option value="20">20 Questions</option>
+                </select>
+            </div>
+
+            <button type="submit" class="setup-button">
+                Start Interview →
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}

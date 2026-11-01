@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}PrepAI{% endblock %}</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+
+        <a href="{{ url_for('home') }}" class="logo">
+            Prep<span>AI</span>
+        </a>
+
+        <div class="nav-links">
+
+            <a href="{{ url_for('home') }}">Home</a>
+
+            {% if session.get('student_id') %}
+
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('resume') }}">Resume Analysis</a>
+                <a href="{{ url_for('interview_setup') }}">AI Mock Interview</a>
+                <a href="{{ url_for('interview_history') }}">Interview History</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+
+            {% else %}
+
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('register') }}">Register</a>
+
+            {% endif %}
+
+        </div>
+
+        {% if session.get('student_id') %}
+
+            <a href="{{ url_for('dashboard') }}" class="nav-button">
+                Dashboard
+            </a>
+
+        {% else %}
+
+            <a href="{{ url_for('register') }}" class="nav-button">
+                Get Started
+            </a>
+
+        {% endif %}
+
+    </nav>
+
+    <!-- Flash Messages -->
+    <div class="flash-container">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="flash-message {{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>
+            © 2026 PrepAI. Your AI-powered placement preparation companion.
+        </p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+
+</html>

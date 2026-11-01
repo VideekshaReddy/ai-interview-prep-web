@@ -1,0 +1,273 @@
+
+{% extends "base.html" %}
+
+{% block title %}Resume Analysis | PrepAI{% endblock %}
+
+{% block content %}
+
+<section class="resume-page">
+
+    <div class="resume-header">
+        <p class="tagline">AI-POWERED RESUME REVIEW</p>
+        <h1>Analyze Your Resume</h1>
+        <p>
+            Upload your resume to identify your skills, discover skill gaps
+            and improve your placement readiness.
+        </p>
+    </div>
+
+    <div class="resume-container">
+
+        <!-- RESUME UPLOAD FORM -->
+
+        <form id="resume-form"
+              action="{{ url_for('resume') }}"
+              method="POST"
+              enctype="multipart/form-data">
+
+            <div class="upload-area">
+
+                <div class="upload-icon">📄</div>
+
+                <h2>Upload Your Resume</h2>
+
+                <p>Choose your resume in PDF format.</p>
+
+                <input
+                    type="file"
+                    id="resume-file"
+                    name="resume"
+                    accept=".pdf,application/pdf"
+                    required
+                >
+
+                <label for="resume-file" class="upload-button">
+                    Choose PDF
+                </label>
+
+                <p id="file-name">No file selected</p>
+
+                <small>Accepted format: PDF (Maximum 5 MB)</small>
+
+            </div>
+
+            <!-- TARGET JOB ROLE -->
+
+            <div class="form-group">
+
+                <label for="target-role">Target Job Role</label>
+
+                <select id="target-role" name="target_role" required>
+
+                    <option value="">Select your target role</option>
+
+                    <option value="Software Developer">Software Developer</option>
+                    <option value="Frontend Developer">Frontend Developer</option>
+                    <option value="Backend Developer">Backend Developer</option>
+                    <option value="Data Analyst">Data Analyst</option>
+                    <option value="Data Scientist">Data Scientist</option>
+                    <option value="Java Developer">Java Developer</option>
+                    <option value="Python Developer">Python Developer</option>
+
+                </select>
+
+            </div>
+
+            <button type="submit" class="resume-submit">
+                Analyze Resume →
+            </button>
+
+        </form>
+
+
+        <!-- FLASH MESSAGES -->
+
+        <div id="analysis-message" class="analysis-message">
+
+            {% with messages = get_flashed_messages() %}
+
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+
+            {% endwith %}
+
+        </div>
+
+
+        <!-- RESUME ANALYSIS RESULTS -->
+
+        {% if found_skills is defined %}
+
+        <section class="skill-results">
+
+            <h2>Resume Analysis Results</h2>
+
+            <p>
+                Your resume has been analyzed for:
+                <strong>{{ target_role }}</strong>
+            </p>
+
+
+            <!-- SKILLS FOUND -->
+
+            <div class="result-section">
+
+                <h3>Skills Found in Your Resume</h3>
+
+                {% if found_skills %}
+
+                    <div class="skills-container">
+
+                        {% for skill in found_skills %}
+
+                            <span class="skill-tag">
+                                {{ skill }}
+                            </span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% else %}
+
+                    <p>No recognized skills found in your resume.</p>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- MATCHED SKILLS -->
+
+            <div class="result-section">
+
+                <h3>Matching Skills</h3>
+
+                {% if matched_skills %}
+
+                    <div class="skills-container">
+
+                        {% for skill in matched_skills %}
+
+                            <span class="skill-tag">
+                                {{ skill }}
+                            </span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% else %}
+
+                    <p>No matching skills found for this role.</p>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- MISSING SKILLS -->
+
+            <div class="result-section">
+
+                <h3>Skills You Need to Improve</h3>
+
+                {% if missing_skills %}
+
+                    <div class="skills-container">
+
+                        {% for skill in missing_skills %}
+
+                            <span class="missing-skill">
+                                {{ skill }}
+                            </span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% else %}
+
+                    <p>
+                        You have all the skills in our current role checklist!
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- SKILL MATCH PERCENTAGE -->
+
+            <div class="result-section">
+
+                <h3>Skill Match Percentage</h3>
+
+                {% if required_skills %}
+
+                    {% set percentage =
+                        (matched_skills|length / required_skills|length * 100)|round|int
+                    %}
+
+                    <h2>{{ percentage }}%</h2>
+
+                    <p>
+                        You match {{ matched_skills|length }}
+                        out of {{ required_skills|length }}
+                        required skills.
+                    </p>
+
+                {% else %}
+
+                    <p>No role requirements available.</p>
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+<!-- FILE SELECTION JAVASCRIPT -->
+
+<script>
+
+    const resumeFile = document.getElementById("resume-file");
+
+    const fileName = document.getElementById("file-name");
+
+    resumeFile.addEventListener("change", function () {
+
+        if (resumeFile.files.length > 0) {
+
+            const file = resumeFile.files[0];
+
+            if (!file.name.toLowerCase().endsWith(".pdf")) {
+
+                fileName.textContent = "Please select a PDF file.";
+
+                resumeFile.value = "";
+
+                return;
+            }
+
+            fileName.textContent = file.name;
+
+        } else {
+
+            fileName.textContent = "No file selected";
+
+        }
+
+    });
+
+</script>
+
+{% endblock %}

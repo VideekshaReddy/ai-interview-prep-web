@@ -1,0 +1,390 @@
+
+{% extends "base.html" %}
+
+{% block title %}AI Mock Interview | PrepAI{% endblock %}
+
+{% block content %}
+
+<section
+    class="interview-page"
+    id="interview-data"
+    data-interview-id="{{ interview.id }}"
+    data-job-role="{{ interview.job_role }}"
+    data-interview-type="{{ interview.interview_type }}"
+    data-difficulty="{{ interview.difficulty }}"
+    data-total-questions="{{ number_of_questions }}"
+    data-questions='{{ questions | tojson | forceescape }}'
+>
+
+    <!-- HEADER -->
+
+    <div class="interview-header">
+        <div>
+            <p class="tagline">AI MOCK INTERVIEW</p>
+            <h1>Your Interview Session</h1>
+            <p>Answer each question carefully. Do your best!</p>
+        </div>
+
+        <div class="interview-timer">
+            <span>TIME ELAPSED</span>
+            <h2 id="timer">00:00</h2>
+        </div>
+    </div>
+
+    <div class="interview-container">
+
+        <!-- INTERVIEW DETAILS -->
+
+        <div class="interview-info">
+            <span>{{ interview.job_role }}</span>
+            <span>{{ interview.interview_type }} Interview</span>
+            <span>{{ interview.difficulty }}</span>
+        </div>
+
+        <!-- PROGRESS -->
+
+        <div class="question-progress">
+            <div class="progress-heading">
+                <span id="question-number">Question 1</span>
+                <span id="progress-percent">0%</span>
+            </div>
+
+            <div class="progress-track">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- QUESTION -->
+
+        <div class="question-card">
+
+            <p class="question-label">INTERVIEW QUESTION</p>
+
+            <h2 id="question">Loading question...</h2>
+
+            <textarea
+                id="answer"
+                rows="7"
+                placeholder="Type your answer here..."
+            ></textarea>
+
+            <p class="answer-hint">
+                Explain your answer clearly and provide examples where possible.
+            </p>
+
+        </div>
+
+        <!-- NAVIGATION -->
+
+        <div class="interview-actions">
+
+            <button
+                type="button"
+                id="previous-btn"
+                class="secondary-button"
+            >
+                ← Previous
+            </button>
+
+            <button
+                type="button"
+                id="next-btn"
+                class="primary-button"
+            >
+                Next Question →
+            </button>
+
+        </div>
+
+        <!-- FINISH INTERVIEW -->
+
+        <button
+            type="button"
+            id="submit-btn"
+            class="submit-button"
+        >
+            Finish Interview
+        </button>
+
+        <p id="submit-status" role="status"></p>
+
+    </div>
+
+</section>
+
+
+<script>
+
+// =====================================================
+// INTERVIEW DATA
+// =====================================================
+
+const interviewData = document.getElementById("interview-data");
+
+const interviewId = interviewData.dataset.interviewId;
+
+const questions = JSON.parse(
+    interviewData.dataset.questions || "[]"
+);
+
+let currentQuestion = 0;
+
+// Store all student answers
+
+let answers = new Array(questions.length).fill("");
+
+
+// =====================================================
+// HTML ELEMENTS
+// =====================================================
+
+const questionElement = document.getElementById("question");
+
+const answerElement = document.getElementById("answer");
+
+const numberElement = document.getElementById("question-number");
+
+const percentElement = document.getElementById("progress-percent");
+
+const progressFill = document.getElementById("progress-fill");
+
+const previousBtn = document.getElementById("previous-btn");
+
+const nextBtn = document.getElementById("next-btn");
+
+const submitBtn = document.getElementById("submit-btn");
+
+const submitStatus = document.getElementById("submit-status");
+
+
+// =====================================================
+// DISPLAY QUESTION
+// =====================================================
+
+function displayQuestion() {
+
+    if (questions.length === 0) {
+
+        questionElement.textContent = "No questions available.";
+
+        answerElement.disabled = true;
+
+        previousBtn.style.display = "none";
+
+        nextBtn.style.display = "none";
+
+        submitBtn.style.display = "none";
+
+        return;
+    }
+
+    questionElement.textContent = questions[currentQuestion];
+
+    answerElement.value = answers[currentQuestion];
+
+    numberElement.textContent =
+        `Question ${currentQuestion + 1} of ${questions.length}`;
+
+    const progress = Math.round(
+        ((currentQuestion + 1) / questions.length) * 100
+    );
+
+    percentElement.textContent = `${progress}%`;
+
+    progressFill.style.width = `${progress}%`;
+
+    previousBtn.disabled = currentQuestion === 0;
+
+    nextBtn.style.display =
+        currentQuestion === questions.length - 1
+        ? "none"
+        : "block";
+
+    submitBtn.style.display =
+        currentQuestion === questions.length - 1
+        ? "block"
+        : "none";
+
+}
+
+
+// =====================================================
+// SAVE ANSWER WHILE TYPING
+// =====================================================
+
+answerElement.addEventListener("input", function () {
+
+    answers[currentQuestion] = answerElement.value;
+
+});
+
+
+// =====================================================
+// NEXT QUESTION
+// =====================================================
+
+nextBtn.addEventListener("click", function () {
+
+    answers[currentQuestion] = answerElement.value;
+
+    if (currentQuestion < questions.length - 1) {
+
+        currentQuestion++;
+
+        displayQuestion();
+
+    }
+
+});
+
+
+// =====================================================
+// PREVIOUS QUESTION
+// =====================================================
+
+previousBtn.addEventListener("click", function () {
+
+    answers[currentQuestion] = answerElement.value;
+
+    if (currentQuestion > 0) {
+
+        currentQuestion--;
+
+        displayQuestion();
+
+    }
+
+});
+
+
+// =====================================================
+// FINISH INTERVIEW
+// =====================================================
+
+submitBtn.addEventListener("click", async function () {
+
+    answers[currentQuestion] = answerElement.value;
+
+    const answeredCount = answers.filter(
+        answer => answer.trim() !== ""
+    ).length;
+
+    if (answeredCount === 0) {
+
+        alert("Please answer at least one question.");
+
+        return;
+    }
+
+    const confirmFinish = confirm(
+        `You have answered ${answeredCount} out of ${questions.length} questions.\n\nAre you sure you want to finish your interview?`
+    );
+
+    if (!confirmFinish) return;
+
+    submitBtn.disabled = true;
+
+    nextBtn.disabled = true;
+
+    previousBtn.disabled = true;
+
+    answerElement.disabled = true;
+
+    submitBtn.textContent = "Evaluating All Answers...";
+
+    submitStatus.textContent =
+        "Gemini AI is evaluating your interview. Please wait...";
+
+    try {
+
+        const response = await fetch("/finish-interview", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+                interview_id: interviewId,
+
+                answers: answers.map(answer => answer.trim())
+
+            })
+
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.error || "Interview evaluation failed."
+            );
+
+        }
+
+        submitStatus.textContent =
+            "Interview evaluated successfully!";
+
+        alert(
+            "Interview completed successfully!\n\n" +
+            "Final Score: " + result.score + "/100\n" +
+            "Answered: " + result.answered +
+            "/" + result.total
+        );
+
+        window.location.href = result.redirect_url;
+
+    } catch (error) {
+
+        alert(error.message);
+
+        submitBtn.disabled = false;
+
+        nextBtn.disabled = false;
+
+        previousBtn.disabled = false;
+
+        answerElement.disabled = false;
+
+        submitBtn.textContent = "Finish Interview";
+
+        submitStatus.textContent = "";
+
+    }
+
+});
+
+
+// =====================================================
+// INTERVIEW TIMER
+// =====================================================
+
+let seconds = 0;
+
+setInterval(function () {
+
+    seconds++;
+
+    const minutes = Math.floor(seconds / 60);
+
+    const remainingSeconds = seconds % 60;
+
+    document.getElementById("timer").textContent =
+        String(minutes).padStart(2, "0") + ":" +
+        String(remainingSeconds).padStart(2, "0");
+
+}, 1000);
+
+
+// =====================================================
+// LOAD FIRST QUESTION
+// =====================================================
+
+displayQuestion();
+
+</script>
+
+{% endblock %}
