@@ -115,9 +115,8 @@
 
 <script>
 
-// =====================================================
+
 // INTERVIEW DATA
-// =====================================================
 
 const interviewData = document.getElementById("interview-data");
 
@@ -134,9 +133,7 @@ let currentQuestion = 0;
 let answers = new Array(questions.length).fill("");
 
 
-// =====================================================
 // HTML ELEMENTS
-// =====================================================
 
 const questionElement = document.getElementById("question");
 
@@ -157,9 +154,8 @@ const submitBtn = document.getElementById("submit-btn");
 const submitStatus = document.getElementById("submit-status");
 
 
-// =====================================================
+
 // DISPLAY QUESTION
-// =====================================================
 
 function displayQuestion() {
 
@@ -208,9 +204,7 @@ function displayQuestion() {
 }
 
 
-// =====================================================
 // SAVE ANSWER WHILE TYPING
-// =====================================================
 
 answerElement.addEventListener("input", function () {
 
@@ -219,9 +213,8 @@ answerElement.addEventListener("input", function () {
 });
 
 
-// =====================================================
+
 // NEXT QUESTION
-// =====================================================
 
 nextBtn.addEventListener("click", function () {
 
@@ -238,9 +231,8 @@ nextBtn.addEventListener("click", function () {
 });
 
 
-// =====================================================
+
 // PREVIOUS QUESTION
-// =====================================================
 
 previousBtn.addEventListener("click", function () {
 
@@ -257,9 +249,8 @@ previousBtn.addEventListener("click", function () {
 });
 
 
-// =====================================================
+
 // FINISH INTERVIEW
-// =====================================================
 
 submitBtn.addEventListener("click", async function () {
 
@@ -358,9 +349,8 @@ submitBtn.addEventListener("click", async function () {
 });
 
 
-// =====================================================
+
 // INTERVIEW TIMER
-// =====================================================
 
 let seconds = 0;
 
@@ -379,9 +369,8 @@ setInterval(function () {
 }, 1000);
 
 
-// =====================================================
+
 // LOAD FIRST QUESTION
-// =====================================================
 
 displayQuestion();
 
