@@ -245,7 +245,15 @@ def dashboard():
 
     average_score = round(average_score or 0, 2)
 
-    skills_improved = 0
+    best_score = db.session.query(
+        db.func.max(Result.score)
+    ).join(
+        Interview
+    ).filter(
+        Interview.student_id == student_id
+    ).scalar()
+
+    best_score = round(best_score or 0, 2)
 
     latest_report = Result.query.join(Interview).filter(
         Interview.student_id == student_id
@@ -256,7 +264,7 @@ def dashboard():
         practice_sessions=practice_sessions,
         tests_completed=tests_completed,
         average_score=average_score,
-        skills_improved=skills_improved,
+        best_score=best_score,
         latest_report_id=(
             latest_report.interview_id if latest_report else None
         )
