@@ -24,9 +24,8 @@ from backend.services.resume_service import (
 from backend.services.evaluation_service import evaluate_all_answers
 
 
-# =====================================================
 # APPLICATION CONFIGURATION
-# =====================================================
+
 
 app = Flask(__name__)
 
@@ -49,9 +48,9 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 db.init_app(app)
 
 
-# =====================================================
+
 # DATABASE MODELS
-# =====================================================
+
 
 from backend.models import (
     Student,
@@ -63,9 +62,9 @@ from backend.models import (
 )
 
 
-# =====================================================
+
 # AI ERROR HANDLING
-# =====================================================
+
 
 def is_quota_error(error):
 
@@ -85,9 +84,9 @@ def is_quota_error(error):
     )
 
 
-# =====================================================
+
 # LOGIN REQUIRED DECORATOR
-# =====================================================
+
 
 def login_required(route_function):
 
@@ -103,18 +102,16 @@ def login_required(route_function):
     return wrapper
 
 
-# =====================================================
+
 # HOME
-# =====================================================
 
 @app.route('/')
 def home():
     return render_template('index.html')
 
 
-# =====================================================
+
 # REGISTRATION
-# =====================================================
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -171,9 +168,8 @@ def register():
     return render_template('register.html')
 
 
-# =====================================================
+
 # LOGIN
-# =====================================================
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -206,9 +202,8 @@ def login():
     return render_template('login.html')
 
 
-# =====================================================
+
 # LOGOUT
-# =====================================================
 
 @app.route('/logout')
 @login_required
@@ -221,9 +216,8 @@ def logout():
     return redirect(url_for('home'))
 
 
-# =====================================================
+
 # DASHBOARD
-# =====================================================
 
 @app.route('/dashboard')
 @login_required
@@ -269,9 +263,8 @@ def dashboard():
     )
 
 
-# =====================================================
+
 # RESUME ANALYSIS
-# =====================================================
 
 @app.route('/resume', methods=['GET', 'POST'])
 @login_required
@@ -367,9 +360,7 @@ def resume():
     return render_template('resume.html')
 
 
-# =====================================================
 # INTERVIEW SETUP
-# =====================================================
 
 @app.route('/interview-setup')
 @login_required
@@ -378,9 +369,8 @@ def interview_setup():
     return render_template('interview_setup.html')
 
 
-# =====================================================
+
 # INTERVIEW GENERATION AND DISPLAY
-# =====================================================
 
 @app.route('/interview', methods=['GET', 'POST'])
 @login_required
@@ -515,9 +505,8 @@ def interview():
     )
 
 
-# =====================================================
+
 # FINISH INTERVIEW AND CALCULATE FINAL SCORE
-# =====================================================
 
 @app.route('/finish-interview', methods=['POST'])
 @login_required
@@ -595,7 +584,7 @@ def finish_interview():
 
         if len(evaluations) != len(evaluation_items):
             raise ValueError(
-                'Gemini returned an incorrect number of evaluations.'
+                'Groq returned an incorrect number of evaluations.'
             )
 
         scores = []
@@ -690,9 +679,8 @@ def finish_interview():
         }), 500
 
 
-# =====================================================
+
 # INTERVIEW HISTORY
-# =====================================================
 
 @app.route('/interview-history')
 @login_required
@@ -727,9 +715,7 @@ def interview_history():
     )
 
 
-# =====================================================
 # DISPLAY INTERVIEW REPORT
-# =====================================================
 
 @app.route('/report/<int:interview_id>')
 @login_required
@@ -789,9 +775,7 @@ def report(interview_id):
     )
 
 
-# =====================================================
 # APPLICATION START
-# =====================================================
 
 if __name__ == '__main__':
 
