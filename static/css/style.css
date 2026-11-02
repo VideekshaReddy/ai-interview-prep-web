@@ -1,7 +1,5 @@
 
-/* =========================================
-   GLOBAL STYLES
-========================================= */
+/* GLOBAL STYLES */
 
 * {
     margin: 0;
@@ -22,9 +20,7 @@ body {
     margin-bottom: 20px;
 }
 
-/* =========================================
-   NAVBAR
-========================================= */
+/* NAVBAR */
 
 .navbar {
     display: flex;
@@ -72,9 +68,7 @@ body {
     background: #684dcf;
 }
 
-/* =========================================
-   HOME PAGE
-========================================= */
+/* HOME PAGE */
 
 .hero {
     min-height: 480px;
@@ -147,9 +141,7 @@ body {
     line-height: 1.6;
 }
 
-/* =========================================
-   COMMON BUTTONS
-========================================= */
+/* COMMON BUTTONS */
 
 .primary-button,
 .secondary-button,
@@ -192,9 +184,7 @@ body {
     background: #ded6ff;
 }
 
-/* =========================================
-   DASHBOARD
-========================================= */
+/*  DASHBOARD */
 
 .dashboard {
     padding: 55px 8%;
@@ -298,9 +288,7 @@ body {
     margin-bottom: 20px;
 }
 
-/* =========================================
-   INTERVIEW SETUP AND RESUME PAGE
-========================================= */
+/* INTERVIEW SETUP AND RESUME PAGE */
 
 .setup-page,
 .resume-page {
@@ -542,9 +530,7 @@ body {
     color: white;
 }
 
-/* =========================================
-   REPORT PAGE
-========================================= */
+/* REPORT PAGE */
 
 .report-page {
     padding: 55px 8%;
@@ -655,9 +641,7 @@ body {
     gap: 15px;
 }
 
-/* =========================================
-   RESUME UPLOAD
-========================================= */
+/* RESUME UPLOAD */
 
 .upload-area {
     text-align: center;
@@ -718,9 +702,7 @@ body {
     line-height: 1.6;
 }
 
-/* =========================================
-   RESPONSIVE DESIGN
-========================================= */
+/* RESPONSIVE DESIGN */
 
 @media (max-width: 900px) {
 
@@ -914,9 +896,7 @@ body {
     font-weight: 600;
     text-decoration: none;
 }
-/* =================================
-   INTERVIEW HISTORY PAGE
-================================= */
+/* INTERVIEW HISTORY PAGE */
 
 .history-page {
     width: 90%;
