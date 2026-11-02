@@ -10,7 +10,7 @@ def generate_questions(
     skills=None
 ):
     """
-    Generate interview questions using Gemini AI.
+    Generate interview questions using Groq AI.
     """
 
     questions = generate_ai_questions(
